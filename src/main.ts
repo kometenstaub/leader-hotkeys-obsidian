@@ -430,11 +430,11 @@ class MatchHandler {
 
   public readonly handleKeyDown = (event: KeyboardEvent): void => {
     const keypress = KeyPress.fromEvent(event);
-    console.log( keypress );
+    // console.log( keypress );
     const machineState = this.machine.advance(keypress);
-    writeConsole(
-      `An keypress resulted in a ${MatchState[machineState]} state.`,
-    );
+    // writeConsole(
+    //   `An keypress resulted in a ${MatchState[machineState]} state.`,
+    // );
 
     if (this.machine.stateKind() !== MatchStateKind.Initial) {
       event.preventDefault();
@@ -452,9 +452,9 @@ class MatchHandler {
       return;
     }
 
-    writeConsole(
-      'Fully matched an prefix, but without a corresponding Keymap. This is definitely a bug.',
-    );
+    // writeConsole(
+    //   'Fully matched an prefix, but without a corresponding Keymap. This is definitely a bug.',
+    // );
   }
 
   public setKeymap(keymaps: KeyMap[]): void {
@@ -615,9 +615,9 @@ class RecordingModal extends Modal {
     const registerState = this.registerMachine.advance(keyPress);
     this.currentSequence = this.registerMachine.presses();
 
-    writeConsole(
-      `An keypress resulted in ${RecordingState[registerState]} state.`,
-    );
+    // writeConsole(
+    //   `An keypress resulted in ${RecordingState[registerState]} state.`,
+    // );
 
     switch (registerState) {
       case RecordingState.EmptySequence:
@@ -836,7 +836,7 @@ class LeaderSettingsTab extends PluginSettingTab {
   }
 
   public addKeymap(keymap: KeyMap): void {
-    writeConsole(`Adding keymap: ${keymap.text()}`);
+    // writeConsole(`Adding keymap: ${keymap.text()}`);
 
     const newHotkeys = [...this.currentKeymaps()].concat(keymap);
 
@@ -846,7 +846,7 @@ class LeaderSettingsTab extends PluginSettingTab {
   public removeKeymap(positionId: number): void {
     const currentHotkeys = this.currentKeymaps();
     const toRemove = currentHotkeys[positionId];
-    writeConsole(`Removing keymap: ${toRemove.text()}`);
+    // writeConsole(`Removing keymap: ${toRemove.text()}`);
 
     const newKeymap = [];
     for (let i = 0; i < currentHotkeys.length; i++) {
@@ -859,7 +859,7 @@ class LeaderSettingsTab extends PluginSettingTab {
   }
 
   public updateKeymap(positionId: number, keyMap: KeyMap): void {
-    writeConsole(`Updating keymap at position ${positionId}: ${keyMap.text()}`);
+    // writeConsole(`Updating keymap at position ${positionId}: ${keyMap.text()}`);
     const keyMaps = [...this.currentKeymaps()];
     keyMaps[positionId] = keyMap;
     this.saveKeymap(keyMaps);
@@ -941,7 +941,7 @@ export default class LeaderHotkeys extends Plugin {
 
     this.settingsTab = new LeaderSettingsTab(this);
     this.addSettingTab(this.settingsTab);
-    writeConsole('Registered Setting Tab.');
+    // writeConsole('Registered Setting Tab.');
 
     writeConsole('Finished Loading.');
   }
@@ -974,7 +974,7 @@ export default class LeaderHotkeys extends Plugin {
   }
 
   private readonly registerEventsAndCallbacks = async (): Promise<void> => {
-    writeConsole('Registering necessary event callbacks');
+    // writeConsole('Registering necessary event callbacks');
 
     const workspaceContainer = this.app.workspace.containerEl;
     this.registerDomEvent(
@@ -982,7 +982,7 @@ export default class LeaderHotkeys extends Plugin {
       'keydown',
       this.matchHandler.handleKeyDown,
     );
-    writeConsole('Registered workspace "keydown" event callbacks.');
+    // writeConsole('Registered workspace "keydown" event callbacks.');
 
     const openModalCommand = {
       id: 'register-modal',
@@ -993,17 +993,17 @@ export default class LeaderHotkeys extends Plugin {
       },
     };
     this.addCommand(openModalCommand);
-    writeConsole('Registered open modal command');
+    // writeConsole('Registered open modal command');
   };
 
   private readonly loadSavedSettings = async (): Promise<void> => {
-    writeConsole('Loading previously saved settings.');
+    // writeConsole('Loading previously saved settings.');
 
     const savedSettings = (await this.loadData()) || {};
     try {
       savedSettings.hotkeys = (savedSettings.hotkeys || []).map(KeyMap.of);
       this.settings = savedSettings;
-      writeConsole('Loaded previous settings.');
+      // writeConsole('Loaded previous settings.');
     } catch (err) {
       writeConsole('A failure occured while parsing the saved settings.');
       createNotice(
