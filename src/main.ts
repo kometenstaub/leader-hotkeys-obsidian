@@ -981,6 +981,7 @@ export default class LeaderHotkeys extends Plugin {
       workspaceContainer,
       'keydown',
       this.matchHandler.handleKeyDown,
+      {capture: true} // make it work when cursor is in the editor
     );
     // writeConsole('Registered workspace "keydown" event callbacks.');
 
